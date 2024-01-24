@@ -1,0 +1,29 @@
+<?php
+
+namespace {{NAMESPACE}};
+
+{{MODEL_USE_STATEMENT}};
+{{USE_NOTIFICATIONS}}
+
+abstract class {{CLASS_NAME}}
+{
+    public static function make()
+    {
+        return static::getActionClass()::make('{{ACTION_NAME}}')
+            ->label('{{ACTION_LABEL}}')
+            ->icon('{{ICON_NAME}}')
+            ->form([
+                // TextInput::make()
+            ])
+            ->action(function (?{{MODEL_CLASS}} $record{{FORM_DATA_ASSIGN}}): void {
+                if ($record){
+                    // {{SUCCESS_NOTIFICATION_METHOD_CALL}}
+                } else
+                {
+                    // {{FAILURE_NOTIFICATION_METHOD_CALL}}
+                }
+            });
+    }
+    {{NOTIFICATION_METHODS}}
+    abstract protected static function getActionClass();
+}

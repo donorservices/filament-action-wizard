@@ -1,0 +1,14 @@
+<?php
+
+namespace {{NAMESPACE}};
+
+use App\Filament\Actions\{{MODEL_CLASS}}\{{CLASS_NAME}};
+use Filament\Tables\Actions\Action as TableAction;
+
+class {{CLASS_NAME_WITHOUT_BASEACTION}} extends {{CLASS_NAME}}
+{
+    protected static function getActionClass(): string
+    {
+        return TableAction::class;
+    }
+}

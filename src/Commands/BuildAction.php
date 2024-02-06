@@ -32,7 +32,8 @@ class BuildAction extends Command
      */
     public function handle()
     {
-
+        
+        
         // Get target directory from user input
         $modelInputTask = new ModelInputTask();
         $modelInput = $modelInputTask->getModelInput();

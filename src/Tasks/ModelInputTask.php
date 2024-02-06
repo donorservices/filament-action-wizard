@@ -21,11 +21,24 @@ class ModelInputTask
         );
 
         if (!$checkModelPathCustom) {
-            $customModelPath = text(
-                label: 'Enter the full custom model path (e.g., App\Domain\User\Models):',
-                required: true
+            $customModelPath = confirm(
+                label: 'Is the targeted model in the Modules directory?',
+                default: true,
+                yes: 'Yes',
+                no: 'No'
             );
-            $allModels = $this->getAllModels($customModelPath);
+            
+        }
+
+        if (!$checkModelPathCustom) {
+            if (!$customModelPath) {
+                error('Nope!');
+                return false;
+            } else {
+                error('Yep!');
+                $allModels = $this->getModulesModels();
+            }
+            
         } else {
             $allModels = $this->getAllModels();
         }
@@ -64,6 +77,23 @@ class ModelInputTask
                 if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
                     $modelName = pathinfo($file, PATHINFO_FILENAME);
                     $models[] = $customPath ? "{$customPath}\\{$modelName}" : "App\\Models\\{$modelName}";
+                }
+            }
+        }
+
+        return $models;
+    }
+
+    private function getModulesModels($customPath = null): array
+    {
+        $models = [];
+        $modelsPath = $customPath ? base_path($customPath) : app_path('Modules');
+
+        if (file_exists($modelsPath)) {
+            foreach (scandir($modelsPath) as $file) {
+                if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+                    $modelName = pathinfo($file, PATHINFO_FILENAME);
+                    $models[] = $customPath ? "{$customPath}\\{$modelName}" : "\\{$modelName}";
                 }
             }
         }
